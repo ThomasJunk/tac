@@ -14,15 +14,11 @@ defmodule Tac.CLI do
     usage()
   end
 
-  def main([_,_]) do
-    usage()
+  def main(args) do
+    args |> (&(Enum.map(&1, fn file -> handle(file) end))).()
   end
 
-  def main([filename]) do
-    handle_file(filename)
-  end
-
-  def handle_file(filename) do
+  def handle(filename) do
     with {:ok, content} <- File.read(filename)
     do
       reverse(content)
